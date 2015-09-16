@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var Post = new mongoose.Schema({
-	label: {type: String, required: true},
+	label: {type: String},
 	author: {type: ObjectId, ref: 'User', required: true},
 	thread: {type: ObjectId, ref: 'Thread', required: true},
 	createdAt: {type: Date, default: Date.now, required: true},
