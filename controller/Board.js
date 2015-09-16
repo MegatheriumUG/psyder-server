@@ -43,4 +43,29 @@ exports.setup = function(app) {
 			res.send({status: 'success', data: {boardId: board._id}});
 		});
 	});
+
+	/**
+	 * Listet alle Foren auf.
+	 * Benötigt Login.
+	 *
+	 * @param boardId	String	optional; die Foren-ID, deren Unterforen aufgelistet werden sollen
+	 * @return boards	model.Board[]
+	 */
+	app.get('/BoardList', function(req, res, jump) {
+		// Zugriff validieren
+		if (!res.locals.user) return res.send({error: 'Zugriff verweigert.'});
+
+		// Parameter auslesen
+		var boardId = req.query.boardId ? req.query.boardId : null;
+
+		// Suche Forum
+		Board.find({parent: boardId}})
+			.elemMatch('usergroups', {$in: res.locals.user.usergroups})
+			.exec(function(err, boards) {
+				if (err) return jump(err);
+
+				// Antworten
+				res.send({data: {boards: boards}});
+			});
+	});
 }
