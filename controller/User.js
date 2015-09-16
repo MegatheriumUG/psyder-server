@@ -92,4 +92,20 @@ exports.setup = function(app) {
 
 			});
 	});
+
+	/**
+	 * Meldet den Nutzer ab.
+	 */
+	app.get('/UserLogout', function(req, res, jump) {
+		// Zugriff validieren
+		if (!res.locals.session) return res.send({error: 'Sie müssen angemeldet sein, um sich abzumelden.'});
+
+		// Abmelden
+		res.locals.session.remove(function(err) {
+			if (err) return jump(err);
+
+			// Antworten
+			res.send({status: 'success'});
+		});
+	});
 };
