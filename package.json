@@ -1,0 +1,9 @@
+{
+	"name": "psyder-server",
+	"version": "1.0.0",
+	"dependencies": {
+		"async": "*",
+		"express": "*",
+		"mongoose": "*"
+	}
+}
