@@ -5,6 +5,9 @@ Psyder. What el.se to say.
 
 Der Server bietet eine HTTP-API.
 
+
+### Allgemeines
+
 In jeden Query können folgende Parameter mitgesendet werden:
  - ***sessionId*** (*String*) optional; beinhaltet die ID der Session und ermöglicht es dem Nutzer, sich gegenüber der Website anzumelden
 
@@ -12,6 +15,13 @@ Jede Antwort ist in JSON Strukturiert. Die hier dokumentierten Antworten stehen 
  - ***status*** (*String*) beinhaltet den Status, im Erfolgsfall "success"
  - ***error*** (*String*) beinhaltet eine Fehlermeldung
 
+#### Pagination
+
+Einige Controller unterstützen Pagination. Diese empfangen zwei optionale Parameter:
+ - ***amount*** (*Integer*) optional; wenn übergeben, werden maximal $amount Nachrichten/Threads/Foren/... übersprungen; Standardwert: 20
+ - ***offset*** (*Integer*) optional; wenn übergeben, werden die ersten $offset Nachrichten/Threads/Foren/... übersprungen; Standardwert: 0
+
+Als Antwort kommen maximal $amount Items, wobei die ersten $offset Items übersprungen werden.
 
 
 ### Board (2)
@@ -43,11 +53,12 @@ Antwort:
 
 
 
-### Thread (1)
+### Thread (2)
 
 #### ThreadAdd
 
 Erstellt einen neuen Thread und den dazu gehörigen Startpost.
+Benötigt Login.
 
 Parameter:
  - ***label*** (*String*) beinhaltet den Namen des Threads
@@ -59,6 +70,20 @@ Antwort:
  - ***postId*** (*String*) die ID des erstellten Startposts
 
 
+#### ThreadList
+
+Listet alle Threads eines Forums auf.
+Benötigt Login.
+Unterstützt Pagination.
+
+Parameter:
+ - ***boardId*** (*String*) die ID des Forums, aus dem Threads aufgelistet werden sollen
+ - ***offset*** (*Integer*) optional; wenn übergeben, werden die ersten $offset Threads übersprungen; Standardwert: 0
+ - ***amount*** (*Integer*) optional; begrenzt die Anzahl der aufgelisteten Threads; Standardwert: 20
+
+Antwort:
+ - ***threads*** (*model.Thread[]*) die Threads
+ - ***board*** (*model.Board*) das Forum
 
 
 ### User (2)
