@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Session handling
 app.all('*', function(req, res, callback) {
+	// Debugging
+	if (config.debug) res.setHeader('Access-Control-Allow-Origin', '*');
+
 	// suche Session
 	var sessionId = req.query.hasOwnProperty('sessionId') ? req.query.sessionId : req.body.sessionId;
 	if (!sessionId) return callback();
@@ -45,6 +48,17 @@ fs.readdir(__dirname+'/model', function(err, files) {
 
 	for (var i = 0; i < files.length; ++i)
 		require('./model/'+files[i]);
+});
+
+// Fehlermeldungen abfangen
+app.use(function(err, req, res, next) {
+	if (!err) return next();
+
+	// Antworten
+	res.send({error: 'Unbekannter Serverfehler.'});
+
+	// Fehler bearbeiten
+	error(err);
 });
 
 // Datenbank verbinden

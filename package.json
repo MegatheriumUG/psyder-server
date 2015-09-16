@@ -3,7 +3,9 @@
 	"version": "1.0.0",
 	"dependencies": {
 		"async": "*",
+		"body-parser": "*",
 		"express": "*",
-		"mongoose": "*"
+		"mongoose": "*",
+		"mongoose-parse": "*"
 	}
 }
